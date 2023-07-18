@@ -7,7 +7,7 @@ img {
     border-radius: 15px;
 }
 
-.container {
+div[class="container"] {
     background-color: hsl(0, 0%, 100%);
     height: 425px;
     width: 250px;
@@ -18,11 +18,6 @@ img {
     margin-right: auto;
     margin-top: 12%;
 
-}
-
-#card {
-    /* margin-top: 50vh;
-    margin-bottom: 50vh; */
 }
 
 p {
