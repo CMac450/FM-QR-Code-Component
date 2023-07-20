@@ -43,14 +43,22 @@ function App() {
 
     setCalculatedYears(year - birthYear);
 
+    console.log(`${calculatedYears} years, ${calculatedMonths} months, ${calculatedDays} days`)
+    console.log(typeof calculatedYears)
+
   }
 
+  const validateForm = () => {
+    
+  }
+
+//input borders and labels must turn red if invalid. also add message "this field is required" if field is empty
 
   return (
     <>
       <div className='card'>
         <div className='input-row'>
-          <form>
+          <form  className='form' name="calculteAgeForm" action="" method="" onSubmit={validateForm}>
             <div className='col col-left'>
               <label htmlFor='day'>day</label><br />
               <input type='text' id="day" onChange={(e) => { setDayInput(e.target.value) }} />
@@ -64,10 +72,9 @@ function App() {
               <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} />
             </div>
           </form>
-          
         </div>
 
-          <button type='button' onClick={calculateAge}>Submit</button>
+        {/* <button type='button' onClick={calculateAge}>Submit</button> */}
 
         <div className='divider'>
 
@@ -75,9 +82,22 @@ function App() {
 
         <div className='result'>
           <p className='result-text'>
-            <i><span>{calculatedYears}</span> years</i> <br />
-            <i><span>{calculatedMonths}</span> months </i> <br />
-            <i><span>{calculatedDays}</span> days</i>     
+            {/* {typeof calculatedYears} <br/>
+            {calculatedYears} */}
+            {/*^gives NaN on first button click which throws error for span */}
+
+            <i>
+              <span className='result-num'>{calculatedYears ? {calculatedYears} : (<>--</>)}</span> 
+              years
+            </i> <br />
+            <i>
+            <span className='result-num'>{calculatedMonths ? {calculatedMonths} : (<>--</>)}</span> 
+              months
+            </i> <br /> 
+             <i>
+            <span className='result-num'>{calculatedDays ? {calculatedDays} : (<>--</>)}</span> 
+              days
+            </i>
           </p>
         </div>
       </div>
