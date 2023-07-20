@@ -1,42 +1,74 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.root {
+  /* background-color: hsl(0, 0%, 8%); */
 }
 
 .card {
-  padding: 2em;
+  background-color: hsl(0, 0%, 100%);
+  height: 500px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 100px;
+  margin: 0px 10px;
+  padding: 10px;
+  /* text-align: center; */
 }
 
-.read-the-docs {
-  color: #888;
+.input-row {
+  display: flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+}
+
+p, label {
+  font-family: Poppins;
+  
+}
+
+p {
+  color: hsl(0, 0%, 8%);
+}
+
+label {
+  font-size: 15px;
+  color: hsl(0, 1%, 44%);
+  font-variant-caps: small-caps;
+  letter-spacing: 2px;
+}
+
+p[class="result-text"] {
+  font-size: 55px;
+  font-weight: 800;
+  line-height: 60px;
+}
+
+span {
+  color: hsl(259, 100%, 65%);
+}
+
+input {
+  width: 70px;
+}
+
+.col {
+  flex: 33.3%;
+  width: 33.3%;
+  /* border: 2px solid red; */
+  /* padding: 5px; */
+}
+
+.col-mid {
+  margin: 0px 10px;
+}
+
+/* remove input arrows in Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* remove input arrows in Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
