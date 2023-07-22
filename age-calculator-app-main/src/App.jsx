@@ -56,52 +56,83 @@ function App() {
   }
 
 
-  const [isDayFieldEmpty, setIsDayFieldEmpty] = useState(true);
-  const [isMonthFieldEmpty, setIsMonthFieldEmpty] = useState(true);
-  const [isYearFieldEmpty, setIsYearFieldEmpty] = useState(true);
-  const [isDayInputValid, setIsDayInputValid] = useState(false);
-  let invalidDayRangeError = (<span className='error-text'>You must choose a number between 1 and 31</span>);
-  let invalidMonthRangeError = (<span className='error-text'>You must choose a number between 1 and 12</span>);
-  let invalidYearError = (<span className='error-text'>You must choose a number less than or eequal to 2023</span>);
-  let invalidDateError = (<span className='error-text'>Your date is invalid.</span>)
-  let requiredFieldError = (<span className='error-text'>This field is required</span>)
+  // const [isFieldEmpty, setIsFieldEmpty] = useState(false);
+  const [isDayFieldEmpty, setIsDayFieldEmpty] = useState(false);
+  const [isMonthFieldEmpty, setIsMonthFieldEmpty] = useState(false);
+  const [isYearFieldEmpty, setIsYearFieldEmpty] = useState(false);
+  const [isDayInputInvalid, setIsDayInputInvalid] = useState(false);
+  const [isMonthInputInvalid, setIsMonthInputInvalid] = useState(false);
+  const [isYearInputInvalid, setIsYearInputInvalid] = useState(false);
+  const [isDateValid, setIsDateValid] = useState(false);
+  let invalidDayError = (<span className='error-text'><i>Must be a valid day</i></span>);
+  let invalidMonthError = (<span className='error-text'><i>Must be a valid month</i></span>);
+  let invalidYearError = (<span className='error-text'><i>Must be in the past</i></span>);
+  let invalidDateError = (<span className='error-text'><i>Must be a valid date</i></span>)
+  let requiredFieldError = (<span className='error-text'><i>This field is required</i></span>)
 
 
-  const validateForm = (event) => {
-    let d = document.forms["calculteAgeForm"]["day"].value;
-    let m = document.forms["calculteAgeForm"]["month"].value;
-    let y = document.forms["calculteAgeForm"]["year"].value;
-
-    // alert("Your form was submitted");
-
+  const validateForm = (event) => { 
+    
     event.preventDefault();
 
-    if (d !== "") { // && m === "" && y === ""
+    let d = document.getElementById('dayInput').value;
+    let m = document.getElementById('monthInput').value;
+    let y = document.getElementById('yearInput').value;
+    let thirtyOneDayMonths = [1,3,5,7,8,10,12]
+    let thirtyDayMonths = [4,6,9,11]
+    let febMonth = 2
+
+    if (d === "") {
+      document.getElementById('dayInput').style.outline = "1px solid hsl(0, 100%, 67%)";
+      document.getElementById('dayLabel').style.color = "hsl(0, 100%, 67%)";
+      setIsDayFieldEmpty(true);
+    } else if (d < 1 || d > 31) {
+      document.getElementById('dayInput').style.outline = "1px solid hsl(0, 100%, 67%)";
+      document.getElementById('dayLabel').style.color = "hsl(0, 100%, 67%)";
+      setIsDayInputInvalid(true);
       setIsDayFieldEmpty(false);
-      //setIsMonthFieldValid(false);
-      //setIsYearFieldValid(false);
-    } else if (d >= 1 && d <= 31) {
-      setIsDayInputValid(true);
+    } else {
+      document.getElementById('dayInput').style.outline = "1px solid hsl(0, 0%, 94%)";
+      document.getElementById('dayLabel').style.color = "hsl(0, 1%, 44%)";
+      setIsDayFieldEmpty(false);
+      setIsDayInputInvalid(false);
     }
+    
 
     if (m === "") {
+      document.getElementById('monthInput').style.outline = "1px solid hsl(0, 100%, 67%)";
+      document.getElementById('monthLabel').style.color = "hsl(0, 100%, 67%)";
+      setIsMonthFieldEmpty(true);
+    } else if (m < 1 || m > 12) {
+      document.getElementById('monthInput').style.outline = "1px solid hsl(0, 100%, 67%)";
+      document.getElementById('monthLabel').style.color = "hsl(0, 100%, 67%)";
+      setIsMonthInputInvalid(true);
+      setIsMonthFieldEmpty(false);
+    } else {
+      document.getElementById('monthInput').style.outline = "1px solid hsl(0, 0%, 94%)";
+      document.getElementById('monthLabel').style.color = "hsl(0, 1%, 44%)";
       setIsMonthFieldEmpty(false);
     }
 
     if (y === "") {
+      document.getElementById('yearInput').style.outline = "1px solid hsl(0, 100%, 67%)";
+      document.getElementById('yearLabel').style.color = "hsl(0, 100%, 67%)";
+      setIsYearFieldEmpty(true);
+    } else if (y > 2023) {
+      document.getElementById('yearInput').style.outline = "1px solid hsl(0, 100%, 67%)";
+      document.getElementById('yearLabel').style.color = "hsl(0, 100%, 67%)";
+      setIsYearInputInvalid(true);
+      setIsYearFieldEmpty(false);
+    } else {
+      document.getElementById('yearInput').style.outline = "1px solid hsl(0, 0%, 94%)";
+      document.getElementById('yearLabel').style.color = "hsl(0, 1%, 44%)";
       setIsYearFieldEmpty(false);
     }
 
-    //event.preventDefault();
-    //calculateAge();  
-
-    // let inputs = document.getElementById("form").elements;
-
-    // for (let i = 0; i < inputs.lenght; i++) {
-    //   inputs[i].addEventListener("invalid", function () {
-    //     document.getElementById("form").className = "submitted";
-    //   })
-    // }
+    if (thirtyOneDayMonths.includes(m)) {
+      document.getElementById('yearInput').style.outline = "1px solid hsl(0, 100%, 67%)";
+      document.getElementById('yearLabel').style.color = "hsl(0, 100%, 67%)";
+    }
   }
 
 
@@ -116,48 +147,40 @@ function App() {
             <div className='input-row' id="row">
               <div className='col col-left'>
                 <div>
-                  <label htmlFor='day'>day</label><br />
-                  <input type='number' id="day" onChange={(e) => { setDayInput(e.target.value); validateForm(e.target.value) }} placeholder='DD' /> {/*min={1} max={31} */}
+                  <label htmlFor='day' id="dayLabel">day</label><br />
+                  <input type='number' id="dayInput" onChange={(e) => { setDayInput(e.target.value); validateForm(e) }} placeholder='DD' /> {/*min={1} max={31} */}
                 </div>
                 <div>
-                  {/* {!isDayFieldEmpty ? requiredFieldError : (<></>)}
-                {!isDayInputValid ? invalidDayRangeError : (<></>)} */}
+                {isDayFieldEmpty ? requiredFieldError : isDayInputInvalid ? invalidDayError : (<></>)}
                 </div>
               </div>
               <div className='col col-mid'>
                 <div>
-                  <label htmlFor='month'>month</label><br />
-                  <input type='number' id="month" onChange={(e) => { setMonthInput(e.target.value) }} placeholder='MM' /> {/*min={1} max={12} */}
+                  <label htmlFor='month' id="monthLabel">month</label><br />
+                  <input type='number' id="monthInput" onChange={(e) => { setMonthInput(e.target.value); validateForm(e) }} placeholder='MM' /> {/*min={1} max={12} */}
                 </div>
                 <div>
                   {/* {!isMonthFieldEmpty ? requiredFieldError : (<></>)} */}
+                  {isMonthFieldEmpty ? requiredFieldError : isMonthInputInvalid ? invalidMonthError : (<></>)}
                 </div>
               </div>
               <div className='col col-right'>
                 <div>
-                  <label htmlFor='year'>year</label><br />
-                  <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} placeholder='YYYY' /> {/*max={2023} */}
+                  <label htmlFor='year' id="yearLabel">year</label><br />
+                  <input type='number' id="yearInput" onChange={(e) => { setYearInput(e.target.value); validateForm(e) }} placeholder='YYYY' /> {/*max={2023} */}
                 </div>
                 <div>
                   {/* {!isYearFieldEmpty ? requiredFieldError : (<></>)} */}
+                  {isYearFieldEmpty ? requiredFieldError : isYearInputInvalid ? invalidYearError : (<></>)}
                 </div>
               </div>
 
             </div>
-            {/* <input type='submit' value="submit" id="submitBtn" /> */}
           </form>
-
-
-          {/* <button type='button' onClick={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}>Submit</button> */}
-
-          {/* <div className='divider'>
-            <hr className='solid'></hr><button type='button' onClick={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}><img src="../assets/images/icon-arrow.svg" /></button>
-          </div> */}
-
 
           <div className='divider' id="row">
             <div><hr className='solid'></hr></div>
-            <div><button type='button' onClick={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}><img src="../assets/images/icon-arrow.svg" /></button></div>
+            <div><button type='button' onClick={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}></button></div>
           </div>
 
 
@@ -198,125 +221,125 @@ function App() {
   )
 }
 
-{/*<NotValidatedInputs isDayFieldValid={isDayFieldValid} isMonthFieldValid={isMonthFieldValid} isYearFieldValid={isYearFieldValid} /> */ }
-function InvalidInputs({ isDayFieldValid, isMonthFieldValid, isYearFieldValid }) {
-  return (
-    <>
-      <form className='form' id="form" name="calculteAgeForm" action="" method="" onSubmit={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}> {/*onSubmit={(e) => {validateForm(e); calculateAge();}} */}
-        <div className='col col-left'>
-          <label className='invalid-label' htmlFor='day'>day</label><br />
-          <input type='number' id="day" onChange={(e) => { setDayInput(e.target.value); validateForm(e.target.value) }} min={1} max={31} />
-          {!isDayFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <div className='col col-mid'>
-          <label className='invalid-label' htmlFor='month'>month</label><br />
-          <input type='number' id="month" onChange={(e) => { setMonthInput(e.target.value) }} min={1} max={12} />
-          {!isMonthFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <div className='col col-right'>
-          <label className='invalid-label' htmlFor='year'>year</label><br />
-          <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} max={2023} />
-          {!isYearFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <input type='submit' value="submit" id="submitBtn" />
-      </form>
-    </>
-  )
-}
+// {/*<NotValidatedInputs isDayFieldValid={isDayFieldValid} isMonthFieldValid={isMonthFieldValid} isYearFieldValid={isYearFieldValid} /> */ }
+// function InvalidInputs({ isDayFieldValid, isMonthFieldValid, isYearFieldValid }) {
+//   return (
+//     <>
+//       <form className='form' id="form" name="calculteAgeForm" action="" method="" onSubmit={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}> {/*onSubmit={(e) => {validateForm(e); calculateAge();}} */}
+//         <div className='col col-left'>
+//           <label className='invalid-label' htmlFor='day'>day</label><br />
+//           <input type='number' id="day" onChange={(e) => { setDayInput(e.target.value); validateForm(e.target.value) }} min={1} max={31} />
+//           {!isDayFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <div className='col col-mid'>
+//           <label className='invalid-label' htmlFor='month'>month</label><br />
+//           <input type='number' id="month" onChange={(e) => { setMonthInput(e.target.value) }} min={1} max={12} />
+//           {!isMonthFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <div className='col col-right'>
+//           <label className='invalid-label' htmlFor='year'>year</label><br />
+//           <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} max={2023} />
+//           {!isYearFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <input type='submit' value="submit" id="submitBtn" />
+//       </form>
+//     </>
+//   )
+// }
 
-function NotValidatedInputs({ isDayFieldValid, isMonthFieldValid, isYearFieldValid }) {
-  return (
-    <>
-      <form className='form' id="form" name="calculteAgeForm" action="" method="" onSubmit={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}> {/*onSubmit={(e) => {validateForm(e); calculateAge();}} */}
-        <div className='col col-left'>
-          <label htmlFor='day'>day</label><br />
-          <input type='number' id="day" onChange={(e) => { setDayInput(e.target.value); validateForm(e.target.value) }} min={1} max={31} placeholder='DD' />
-          {!isDayFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <div className='col col-mid'>
-          <label htmlFor='month'>month</label><br />
-          <input type='number' id="month" onChange={(e) => { setMonthInput(e.target.value) }} min={1} max={12} placeholder='MM' />
-          {!isMonthFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <div className='col col-right'>
-          <label htmlFor='year'>year</label><br />
-          <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} max={2023} placeholder='YYYY' />
-          {!isYearFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <input type='submit' value="submit" id="submitBtn" />
-      </form>
-    </>
-  )
-}
+// function NotValidatedInputs({ isDayFieldValid, isMonthFieldValid, isYearFieldValid }) {
+//   return (
+//     <>
+//       <form className='form' id="form" name="calculteAgeForm" action="" method="" onSubmit={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}> {/*onSubmit={(e) => {validateForm(e); calculateAge();}} */}
+//         <div className='col col-left'>
+//           <label htmlFor='day'>day</label><br />
+//           <input type='number' id="day" onChange={(e) => { setDayInput(e.target.value); validateForm(e.target.value) }} min={1} max={31} placeholder='DD' />
+//           {!isDayFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <div className='col col-mid'>
+//           <label htmlFor='month'>month</label><br />
+//           <input type='number' id="month" onChange={(e) => { setMonthInput(e.target.value) }} min={1} max={12} placeholder='MM' />
+//           {!isMonthFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <div className='col col-right'>
+//           <label htmlFor='year'>year</label><br />
+//           <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} max={2023} placeholder='YYYY' />
+//           {!isYearFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <input type='submit' value="submit" id="submitBtn" />
+//       </form>
+//     </>
+//   )
+// }
 
-function ValidatedInputs({ isDayFieldValid, isMonthFieldValid, isYearFieldValid }) {
-  return (
-    <>
-      <form className='form' id="form" name="calculteAgeForm" action="" method="" onSubmit={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}> {/*onSubmit={(e) => {validateForm(e); calculateAge();}} */}
-        <div className='col col-left'>
-          <label htmlFor='day'>day</label><br />
-          <input type='number' id="day" onChange={(e) => { setDayInput(e.target.value); validateForm(e.target.value) }} min={1} max={31} placeholder='DD' />
-          {!isDayFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <div className='col col-mid'>
-          <label htmlFor='month'>month</label><br />
-          <input type='number' id="month" onChange={(e) => { setMonthInput(e.target.value) }} min={1} max={12} placeholder='MM' />
-          {!isMonthFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <div className='col col-right'>
-          <label htmlFor='year'>year</label><br />
-          <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} max={2023} placeholder='YYYY' />
-          {!isYearFieldValid ? (
-            <span className='error-text'>
-              This field is required
-            </span>) :
-            (<></>)
-          }
-        </div>
-        <input type='submit' value="submit" id="submitBtn" />
-      </form>
-    </>
-  )
-}
+// function ValidatedInputs({ isDayFieldValid, isMonthFieldValid, isYearFieldValid }) {
+//   return (
+//     <>
+//       <form className='form' id="form" name="calculteAgeForm" action="" method="" onSubmit={(e) => { validateForm(e); calculateAge(dayInput, monthInput, yearInput) }}> {/*onSubmit={(e) => {validateForm(e); calculateAge();}} */}
+//         <div className='col col-left'>
+//           <label htmlFor='day'>day</label><br />
+//           <input type='number' id="day" onChange={(e) => { setDayInput(e.target.value); validateForm(e.target.value) }} min={1} max={31} placeholder='DD' />
+//           {!isDayFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <div className='col col-mid'>
+//           <label htmlFor='month'>month</label><br />
+//           <input type='number' id="month" onChange={(e) => { setMonthInput(e.target.value) }} min={1} max={12} placeholder='MM' />
+//           {!isMonthFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <div className='col col-right'>
+//           <label htmlFor='year'>year</label><br />
+//           <input type='number' id="year" onChange={(e) => { setYearInput(e.target.value) }} max={2023} placeholder='YYYY' />
+//           {!isYearFieldValid ? (
+//             <span className='error-text'>
+//               This field is required
+//             </span>) :
+//             (<></>)
+//           }
+//         </div>
+//         <input type='submit' value="submit" id="submitBtn" />
+//       </form>
+//     </>
+//   )
+// }
 
 export default App
