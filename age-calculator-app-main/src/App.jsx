@@ -199,16 +199,18 @@ function App() {
               </div>
             </form>
 
-            <div className='divider' id="row">
+            {/* <div className='divider' id="row">
               <div><hr className='solid'></hr></div>
               <div><button type='button' onClick={(e) => { validateForm(e); }}></button></div>
-            </div>
+            </div> */}
+            {/* <DividerSmallScreens /> */}
+            <DividerComponent validateForm={validateForm}/>
 
             <div className='result'>
               <p className='result-text'>
                 <i>
                   {(calculatedYears && calculatedDays && calculatedMonths) ? (
-                    <span className='result-num'>{calculatedYears}</span>
+                    <span className='result-num'>{calculatedYears} </span>
                   ) : (
                     <span className='result-num'>- - </span>
                   )
@@ -217,7 +219,7 @@ function App() {
                 </i> <br />
                 <i>
                   {(calculatedYears && calculatedDays && calculatedMonths) ? (
-                    <span className='result-num'>{calculatedMonths}</span>
+                    <span className='result-num'>{calculatedMonths} </span>
                   ) : (
                     <span className='result-num'>- - </span>
                   )
@@ -226,7 +228,7 @@ function App() {
                 </i> <br />
                 <i>
                   {(calculatedYears && calculatedDays && calculatedMonths) ? (
-                    <span className='result-num'>{calculatedDays}</span>
+                    <span className='result-num'>{calculatedDays} </span>
                   ) : (
                     <span className='result-num'>- - </span>
                   )
@@ -237,6 +239,17 @@ function App() {
             </div>
           </div>
         </div>
+      </div>
+    </>
+  )
+}
+
+function DividerComponent({ validateForm }) {
+  return (
+    <>
+      <div className='divider' id="row">
+        <hr className='hr'></hr>
+        <button type='button'  onClick={(e) => { validateForm(e); }}></button>
       </div>
     </>
   )

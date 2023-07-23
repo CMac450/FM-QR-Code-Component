@@ -1,5 +1,5 @@
 .root {
-  
+  text-align: center;
 }
 
 .container {
@@ -27,10 +27,10 @@
   margin-top: 40px;
 }
 
-form.submitted input:invalid  {
+/* form.submitted input:invalid  {
   border-radius: 2px;
   border-color: hsl(0, 100%, 67%);
-}
+} */
 
 
 .input-row {
@@ -57,9 +57,9 @@ input:hover, input:active, input:focus, input:focus-within {
   cursor: pointer;
 }
 
-#row {
+/* #row {
   flex-direction: row;
-}
+} */
 
 p.result-text {
   font-family: Poppins;
@@ -103,7 +103,6 @@ button {
   background-size: 50%;
   height: 70px;
   width: 70px;
-  
 }
 
 button:hover {
@@ -118,7 +117,7 @@ hr {
 }
 
 /*place button and divider on same row and center align both items*/
-.divider {
+.divider-lg {
   display: flex;
   align-items: center;
 }
@@ -134,4 +133,121 @@ input::-webkit-inner-spin-button {
 /* remove input arrows in Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+/* @media screen and (min-width: 401px) {
+  .divider-sm {
+    display: none;
+  }
+} */
+
+@media screen and (min-width: 421px) {
+  #row {
+    flex-direction: none;
+  }
+
+}
+
+@media screen and (max-width: 420px) {
+  /* .divider-lg {
+    display: none;
+  } */
+
+  .card {
+    background-color: hsl(0, 0%, 100%);
+    height: auto;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 100px;
+    margin: auto auto;
+    /* padding: 5px; */
+    width: 80dvw;
+    vertical-align: middle;
+  }
+
+
+  .divider {
+    display: flex;
+    align-items: center;
+    width: 300px;
+
+  }
+
+  .divider-fds {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    display: inline-block;
+    /* justify-content: center; */
+    /* align-items: center; */
+    margin-left: auto;
+    margin-right: auto;
+  }  
+
+  hr {
+    /* width: 220px; */
+    width: 290px;
+    color: #fcfcfc71;
+    background-color: #fcfcfc71;
+    flex-shrink: 0;
+    /* text-align: center;
+    margin-left: auto;
+    margin-right: auto; */
+  }
+
+  button {
+    display: inline-block;
+    position: relative;
+    top: 0;
+    left: -60%;
+    border-radius: 100%;
+    background-color: hsl(259, 100%, 65%);
+    border-color: hsl(259, 100%, 65%);
+    border-style: solid;
+    cursor: pointer;
+    background-image: url("../assets/images/icon-arrow.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: 60px; /*60px*/
+    width: 60px;
+    flex-shrink: 0;
+    /* margin-left: auto;
+    margin-right: auto; */
+
+    /* top: -20px; */
+    
+  }
+
+   p.result-text {
+    font-family: Poppins;
+    color: hsl(0, 0%, 8%);
+    font-size: 48px;
+    font-weight: 900;
+    /* line-height: 80px; */
+    margin-top: 0px;
+    /* margin-bottom: 30px; */
+
+  }
+
+  input {
+    font-family: Poppins;
+    padding: 15px;
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    font-weight: 700;
+    height: 20px;
+    border-radius: 8px;
+    width: 50px;
+    font-size: 19px;
+    border: .5px solid hsl(0, 0%, 86%);
+  }
+
+  .card-body {
+    /* margin-right: 40px; */
+    margin-left: 15px;
+    margin-top: 40px;
+  }
 }
