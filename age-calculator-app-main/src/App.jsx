@@ -154,10 +154,6 @@ function App() {
       then(function () {
         calculateAge(parseInt(d), parseInt(m), parseInt(y));
       })
-    // .catch(function() {
-    //   console.log(`ERROR`)
-    // });
-
 
   }
 
@@ -166,80 +162,58 @@ function App() {
       <div className='container'>
         <div className='card'>
           <div className='card-body'>
-            <form className='form' id="form" name="calculteAgeForm" action="" method="" autoComplete='off'>
-              <div className='input-row' id="row">
-                <div className='col col-left'>
-                  <div>
-                    <label htmlFor='day' id="dayLabel">day</label><br />
-                    <input type='number' id="dayInput" onChange={(e) => { setDayInput(e.target.value); }} placeholder='DD' />
-                  </div>
-                  <div>
-                    {isDayFieldEmpty ? requiredFieldError : isDayInputInvalid ? invalidDayError : isDateInvalid ? invalidDateError : (<></>)}
-                  </div>
-                </div>
-                <div className='col col-mid'>
-                  <div>
-                    <label htmlFor='month' id="monthLabel">month</label><br />
-                    <input type='number' id="monthInput" onChange={(e) => { setMonthInput(e.target.value); }} placeholder='MM' />
-                  </div>
-                  <div>
-                    {isMonthFieldEmpty ? requiredFieldError : isMonthInputInvalid ? invalidMonthError : (<></>)}
-                  </div>
-                </div>
-                <div className='col col-right'>
-                  <div>
-                    <label htmlFor='year' id="yearLabel">year</label><br />
-                    <input type='number' id="yearInput" onChange={(e) => { setYearInput(e.target.value); }} placeholder='YYYY' />
-                  </div>
-                  <div>
-                    {isYearFieldEmpty ? requiredFieldError : isYearInputInvalid ? invalidYearError : (<></>)}
-                  </div>
-                </div>
 
-              </div>
-            </form>
+            <InputComponent isDayFieldEmpty={isDayFieldEmpty} isMonthFieldEmpty={isMonthFieldEmpty} isYearFieldEmpty={isYearFieldEmpty} 
+              requiredFieldError={requiredFieldError} isDayInputInvalid={isDayInputInvalid} isMonthInputInvalid={isMonthInputInvalid} isYearInputInvalid={isYearInputInvalid}
+              invalidDayError={invalidDayError} invalidMonthError={invalidMonthError} invalidYearError={invalidYearError} isDateInvalid={isDateInvalid} invalidDateError={invalidDateError}
+            />
 
-            {/* <div className='divider' id="row">
-              <div><hr className='solid'></hr></div>
-              <div><button type='button' onClick={(e) => { validateForm(e); }}></button></div>
-            </div> */}
-            {/* <DividerSmallScreens /> */}
-            <DividerComponent validateForm={validateForm}/>
+            <DividerComponent validateForm={validateForm} />
 
-            <div className='result'>
-              <p className='result-text'>
-                <i>
-                  {(calculatedYears && calculatedDays && calculatedMonths) ? (
-                    <span className='result-num'>{calculatedYears} </span>
-                  ) : (
-                    <span className='result-num'>- - </span>
-                  )
-                  }
-                  years
-                </i> <br />
-                <i>
-                  {(calculatedYears && calculatedDays && calculatedMonths) ? (
-                    <span className='result-num'>{calculatedMonths} </span>
-                  ) : (
-                    <span className='result-num'>- - </span>
-                  )
-                  }
-                  months
-                </i> <br />
-                <i>
-                  {(calculatedYears && calculatedDays && calculatedMonths) ? (
-                    <span className='result-num'>{calculatedDays} </span>
-                  ) : (
-                    <span className='result-num'>- - </span>
-                  )
-                  }
-                  days
-                </i> <br />
-              </p>
-            </div>
+            <ResultsComponent calculatedYears={calculatedYears} calculatedMonths={calculatedMonths} calculatedDays={calculatedDays} />
+
           </div>
         </div>
       </div>
+    </>
+  )
+}
+
+function InputComponent({ isDayFieldEmpty, isMonthFieldEmpty, isYearFieldEmpty, requiredFieldError,  isDayInputInvalid, isMonthInputInvalid, isYearInputInvalid, invalidDayError, invalidMonthError, invalidYearError, isDateInvalid, invalidDateError}) {
+  return (
+    <>
+      <form className='form' id="form" name="calculteAgeForm" action="" method="" autoComplete='off'>
+        <div className='input-row' id="row">
+          <div className='col col-left'>
+            <div>
+              <label htmlFor='day' id="dayLabel">day</label><br />
+              <input type='number' id="dayInput" placeholder='DD' />
+            </div>
+            <div>
+              {isDayFieldEmpty ? requiredFieldError : isDayInputInvalid ? invalidDayError : isDateInvalid ? invalidDateError : (<></>)}
+            </div>
+          </div>
+          <div className='col col-mid'>
+            <div>
+              <label htmlFor='month' id="monthLabel">month</label><br />
+              <input type='number' id="monthInput" placeholder='MM' />
+            </div>
+            <div>
+              {isMonthFieldEmpty ? requiredFieldError : isMonthInputInvalid ? invalidMonthError : (<></>)}
+            </div>
+          </div>
+          <div className='col col-right'>
+            <div>
+              <label htmlFor='year' id="yearLabel">year</label><br />
+              <input type='number' id="yearInput" placeholder='YYYY' />
+            </div>
+            <div>
+              {isYearFieldEmpty ? requiredFieldError : isYearInputInvalid ? invalidYearError : (<></>)}
+            </div>
+          </div>
+
+        </div>
+      </form>
     </>
   )
 }
@@ -249,7 +223,45 @@ function DividerComponent({ validateForm }) {
     <>
       <div className='divider' id="row">
         <hr className='hr'></hr>
-        <button type='button'  onClick={(e) => { validateForm(e); }}></button>
+        <button type='button' onClick={(e) => { validateForm(e); }}></button>
+      </div>
+    </>
+  )
+}
+
+function ResultsComponent({ calculatedYears, calculatedMonths, calculatedDays }) {
+  return (
+    <>
+      <div className='result'>
+        <p className='result-text'>
+          <i>
+            {(calculatedYears && calculatedDays && calculatedMonths) ? (
+              <span className='result-num'>{calculatedYears} </span>
+            ) : (
+              <span className='result-num'>- - </span>
+            )
+            }
+            years
+          </i> <br />
+          <i>
+            {(calculatedYears && calculatedDays && calculatedMonths) ? (
+              <span className='result-num'>{calculatedMonths} </span>
+            ) : (
+              <span className='result-num'>- - </span>
+            )
+            }
+            months
+          </i> <br />
+          <i>
+            {(calculatedYears && calculatedDays && calculatedMonths) ? (
+              <span className='result-num'>{calculatedDays} </span>
+            ) : (
+              <span className='result-num'>- - </span>
+            )
+            }
+            days
+          </i> <br />
+        </p>
       </div>
     </>
   )
